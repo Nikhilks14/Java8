@@ -1,4 +1,9 @@
-package com.springFrame;
+// 1.Filter even numbers from a list using streams
+
+
+package com.springFrame.Stream;
+
+
 
 import java.util.List;
 import java.util.stream.Collectors;
