@@ -1,3 +1,5 @@
+package com.springFrame.Tricky;
+
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -66,7 +68,7 @@ public class question {
 //        7.  find first non repeated character in a string
 
 //        String str = "Javaprogram";
-        String str = "madam";
+          String str = "madam";
 
 //        System.out.println(str.chars().mapToObj(i->(char)i).
 //                collect(Collectors.groupingBy(Function.identity(), Collectors.counting())));
@@ -90,23 +92,113 @@ public class question {
 
 
         // 9. reverse the String
-
 //        String rev = IntStream.range(0,str.length()).mapToObj(i->str.charAt(str.length()-1-i))
 //                .map(String::valueOf).collect(Collectors.joining());
 //
 //        System.out.println(rev);
 
 //      10. Palindrome of a string
-
 //        boolean isPalindrome = IntStream.range(0,str.length()/2)
 //                .allMatch(i -> str.charAt(i) == str.charAt(str.length()-1-i));
 //        System.out.println(isPalindrome);
 
+List<Employee> employeeList = Arrays.asList(
+                new Employee(1,"Nikhil","IT", "M", 2000),
+                new Employee(2,"Rahul","Finance", "M", 2000),
+                new Employee(3,"Maggie","SALE", "F", 4000),
+                new Employee(4,"Amit","HR", "M", 4000),
+                new Employee(5,"Magha","HR", "F", 3000)
+);
+
+// 11. Highest salary of an employee (find 2nd or 3rd highest or K-th highest)
+
+     Employee employee =  employeeList.stream().sorted(Comparator.comparingDouble(Employee::getSalary).reversed())
+                .findFirst().get();
+        System.out.println("Higest salary : " + employee.getSalary());
+
+
+        Employee employee1 =  employeeList.stream().sorted(Comparator.comparingDouble(Employee::getSalary).reversed())
+                .skip(1).findFirst().get();
+        System.out.println("Second highest salary : " + employee1.getSalary());
+
+// 12. Group by dept in an emp list
+
+        System.out.println(employeeList.stream()
+                .collect(Collectors.groupingBy(Employee::getDept)));
+
+// 13. Count gender in list of emp
+
+        System.out.println(
+                employeeList.stream().collect(Collectors.groupingBy(
+                Employee::getGender, Collectors.counting()
+        )));
+
+// 14.  Find the employees who have same salary
+
+        System.out.println( employeeList.stream().collect(Collectors.groupingBy(Employee::getSalary))
+                .entrySet().stream()
+                .filter(i->i.getValue().size()>1).map(i->i.getKey())
+                .collect(Collectors.toList()));
+
+        System.out.println( employeeList.stream().collect(Collectors.groupingBy(Employee::getSalary))
+                .entrySet().stream()
+                .filter(i->i.getValue().size()>1).map(i->i.getValue())
+                .collect(Collectors.toList()));
 
 
 
+  // 15.
 
 
 // https://www.youtube.com/watch?v=1US2bWVvNm0
+    }
+
+}
+
+class Employee{
+
+    private int id;
+    private String name;
+    private double salary;
+    private String gender;
+    private String dept;
+
+    public Employee(int id, String name ,String dept, String gender, double salary) {
+        this.id = id;
+        this.dept = dept;
+        this.gender = gender;
+        this.salary = salary;
+        this.name = name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    public String getDept() {
+        return dept;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", salary=" + salary +
+                ", gender='" + gender + '\'' +
+                ", dept='" + dept + '\'' +
+                '}';
     }
 }
